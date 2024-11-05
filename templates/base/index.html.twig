@@ -1,0 +1,258 @@
+{% extends 'base.html.twig' %}
+
+
+ {% block body %}
+
+
+     <!-- start page title -->
+     <div class="row">
+         <div class="col-sm-6">
+             <div class="page-title-box">
+                 <h4>Dashboard</h4>
+                 <ol class="breadcrumb m-0">
+                     <li class="breadcrumb-item"><a href="javascript: void(0);">Lexa</a></li>
+                     <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a>
+                     </li>
+                     <li class="breadcrumb-item active">Dashboard</li>
+                 </ol>
+             </div>
+         </div>
+
+     </div>
+     <!-- end page title -->
+
+
+
+     <!-- main test -->
+     <div class="card">
+         <div class="card-header position-relative py-2 mb-0">
+             <div class="row justify-content-center align-items-center">
+                 <!-- Logo MakutaTrans -->
+                 <div class="col-6 d-flex justify-content-center">
+                     <a href="#" class="d-flex align-items-center">
+                         <img src="{{ asset('/img/makutatrans_blue.png') }}" alt="MakutaTrans Logo" width="180"/>
+                     </a>
+                 </div>
+                 <!-- Texte de bienvenue et informations utilisateur -->
+                 <div class="col-6 text-center">
+                     <h4 class="mb-1" style="margin-bottom: 0.5rem;">Bienvenue {{ app.user.pseudo | capitalize }} !</h4>
+                     <p class="text-500" style="margin-bottom: 0.25rem;">{{ app.user.username | capitalize }}</p>
+                     <h5 class="fs-9 fw-normal mb-0">
+                         <strong>MakutaTrans</strong>
+                         <br/>Gestion Ultra-moderne des tickets de Bus et Parking !
+                     </h5>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+
+     <!-- end main test -->
+
+
+     <div class="row">
+         <div class="col-xl-3 col-sm-6">
+             <div class="card mini-stat bg-primary">
+                 <div class="card-body mini-stat-img">
+                     <div class="mini-stat-icon">
+                         <i class="mdi mdi-wallet-outline float-end"></i>
+                     </div>
+                     <div class="text-white">
+                         <h6 class="text-uppercase mb-3 font-size-16 text-white">Balance</h6>
+                         {#                                    <h2 class="mb-4 text-white">{{ orders_count }}</h2> #}
+                         <h2 class="mb-4 text-white"> 11 </h2>
+                         {#                                    <span class="badge bg-info"> +11% </span> #}
+                         {#                                    <span class="ms-2">From previous period</span> #}
+                     </div>
+                 </div>
+             </div>
+         </div>
+         <div class="col-xl-3 col-sm-6">
+             <div class="card mini-stat bg-primary">
+                 <div class="card-body mini-stat-img">
+                     <div class="mini-stat-icon">
+                         <i class="mdi mdi-buffer float-end"></i>
+                     </div>
+                     <div class="text-white">
+                         <h6 class="text-uppercase mb-3 font-size-16 text-white">Total Operations</h6>
+                         {#                                    <h2 class="mb-4 text-white">${{ revenue }}</h2> #}
+                         <h2 class="mb-4 text-white"> 25 </h2>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         <div class="col-xl-3 col-sm-6">
+             <div class="card mini-stat bg-primary">
+                 <div class="card-body mini-stat-img">
+                     <div class="mini-stat-icon">
+                         <i class="mdi mdi-tag-text-outline float-end"></i>
+                     </div>
+                     <div class="text-white">
+                         <h6 class="text-uppercase mb-3 font-size-16 text-white">Cloturée</h6>
+                         {#                                    <h2 class="mb-4 text-white">${{ average_price }}</h2> #}
+                         <h2 class="mb-4 text-white"> 55 </h2>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         <div class="col-xl-3 col-sm-6">
+             <div class="card mini-stat bg-primary">
+                 <div class="card-body mini-stat-img">
+                     <div class="mini-stat-icon">
+                         <i class="mdi mdi-briefcase-check float-end"></i>
+                     </div>
+                     <div class="text-white">
+                         <h6 class="text-uppercase mb-3 font-size-16 text-white">En cours</h6>
+                         {#                                    <h2 class="mb-4 text-white">{{ products_sold }}</h2> #}
+                         <h2 class="mb-4 text-white"> 10 </h2>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <!-- end row -->
+
+     {#                <div class="row"> #}
+     {#                    <div class="col-xl-3"> #}
+     {#                        <div class="card"> #}
+     {#                            <div class="card-body"> #}
+     {#                                <h4 class="card-title mb-4">Monthly Earnings</h4> #}
+
+     {#                                <div class="row text-center mt-4"> #}
+     {#                                    <div class="col-6"> #}
+     {#                                        <h5 class="font-size-20">${{ marketplace_earnings }}</h5> #}
+     {#                                        <h5 class="font-size-20"> marketplace_earnings </h5> #}
+     {#                                        <p class="text-muted">Marketplace</p> #}
+     {#                                    </div> #}
+     {#                                    <div class="col-6"> #}
+     {#                                        <h5 class="font-size-20">${{ total_income }}</h5> #}
+     {#                                        <h5 class="font-size-20"> total_income</h5> #}
+     {#                                        <p class="text-muted">Total Income</p> #}
+     {#                                    </div> #}
+     {#                                </div> #}
+
+     {#                                <div id="morris-donut-example" #}
+     {#                                     data-colors='["#f0f1f4","--bs-primary","--bs-info"]' #}
+     {#                                     class="morris-charts morris-charts-height" dir="ltr"></div> #}
+     {#                            </div> #}
+     {#                        </div> #}
+     {#                    </div> #}
+
+     {#                    <div class="col-xl-6"> #}
+     {#                        <div class="card"> #}
+     {#                            <div class="card-body"> #}
+     {#                                <h4 class="card-title mb-4">Email Sent</h4> #}
+
+     {#                                <div class="row text-center mt-4"> #}
+     {#                                    <div class="col-4"> #}
+     {#                                        <h5 class="font-size-20">${{ email_marketplace }}</h5> #}
+     {#                                        <h5 class="font-size-20"> email_marketplace </h5> #}
+     {#                                        <p class="text-muted">Marketplace</p> #}
+     {#                                    </div> #}
+     {#                                    <div class="col-4"> #}
+     {#                                        <h5 class="font-size-20">${{ email_total_income }}</h5> #}
+     {#                                        <h5 class="font-size-20"> email_total_income </h5> #}
+     {#                                        <p class="text-muted">Total Income</p> #}
+     {#                                    </div> #}
+     {#                                    <div class="col-4"> #}
+     {#                                        <h5 class="font-size-20">${{ email_last_month }}</h5> #}
+     {#                                        <h5 class="font-size-20"> email_last_month </h5> #}
+     {#                                        <p class="text-muted">Last Month</p> #}
+     {#                                    </div> #}
+     {#                                </div> #}
+
+     {#                                <div id="morris-area-example" #}
+     {#                                     data-colors='["#f0f1f4","--bs-primary","--bs-info"]' #}
+     {#                                     class="morris-charts morris-charts-height" dir="ltr"></div> #}
+     {#                            </div> #}
+     {#                        </div> #}
+     {#                    </div> #}
+
+     {#                    <div class="col-xl-3"> #}
+     {#                        <div class="card"> #}
+     {#                            <div class="card-body"> #}
+     {#                                <h4 class="card-title mb-4">Monthly Earnings</h4> #}
+
+     {#                                <div class="row text-center mt-4"> #}
+     {#                                    <div class="col-6"> #}
+     {#                                        <h5 class="font-size-20">${{ marketplace_earnings_2 }}</h5> #}
+     {#                                        <h5 class="font-size-20"> marketplace_earnings_2 </h5> #}
+     {#                                        <p class="text-muted">Marketplace</p> #}
+     {#                                    </div> #}
+     {#                                    <div class="col-6"> #}
+     {#                                        <h5 class="font-size-20">${{ total_income_2 }}</h5> #}
+     {#                                        <h5 class="font-size-20"> total_income_2 </h5> #}
+     {#                                        <p class="text-muted">Total Income</p> #}
+     {#                                    </div> #}
+     {#                                </div> #}
+
+     {#                                <div id="morris-bar-stacked" data-colors='["--bs-info","#f0f1f4"]' #}
+     {#                                     class="morris-charts morris-charts-height" dir="ltr"></div> #}
+     {#                            </div> #}
+     {#                        </div> #}
+     {#                    </div> #}
+
+     {#                </div> #}
+     {#                <!-- end row --> #}
+
+
+     {#                <div class="row"> #}
+
+     {#                    <div class="col-xl-6"> #}
+     <div class="card">
+         <div class="card-body">
+             <h4 class="card-title mb-4">Mes Activités Recentes</h4>
+
+             <div class="table-responsive">
+                 <table class="table align-middle table-centered table-vertical table-nowrap mb-1">
+                     <thead>
+                     <tr>
+                         <th>ID</th>
+                         <th>Montant</th>
+                         <th>Description</th>
+                         <th>Date de création</th>
+                         <th>Statut</th>
+                         <th>Date de clôture</th>
+                     </tr>
+                     </thead>
+                     <tbody>
+                     {% for operation in operations %}
+                         <tr>
+                             <td>{{ operation.id }}</td>
+                             <td>{{ operation.amount|number_format(2, ',', ' ') }} FC</td>
+                             <td>{{ operation.description }}</td>
+                             <td>{{ operation.dateCreated ? operation.dateCreated|date('d/m/Y H:i') : 'N/A' }}</td>
+                             <td>
+                                 {% if operation.closedStatus == 200 %}
+                                     <span class="badge rounded-pill bg-success">Terminé</span>
+                                 {% else %}
+                                     <span class="badge rounded-pill bg-info">En cours</span>
+                                 {% endif %}
+                             </td>
+                             <td>{{ operation.dateClosed ? operation.dateClosed|date('d/m/Y H:i') : 'N/A' }}</td>
+                         </tr>
+                     {% else %}
+                         <tr>
+                             <td colspan="6" class="text-center">Aucune opération trouvée.</td>
+                         </tr>
+                     {% endfor %}
+                     </tbody>
+                 </table>
+
+             </div>
+
+
+         </div>
+         {#                        </div> #}
+         {#                    </div> #}
+     </div>
+     <!-- end row -->
+
+
+
+     {% include 'layout/settings.html.twig' %}
+
+
+ {% endblock %}
+
+

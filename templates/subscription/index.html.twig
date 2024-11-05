@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel Abonnement {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Nouvel Abonnement</h4>
+            <p class="card-title-desc">
+                Veuillez remplir le formulaire ci-dessous pour créer un nouvel abonnement.
+            </p>
+
+            {{ form_start(form, { 'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'} }) }}
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        {{ form_label(form.totalDay, "Nombre de jours", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.totalDay, {'attr': {'class': 'form-control', 'placeholder': 'Nombre de jours'}}) }}
+                        <div class="invalid-feedback">
+                            Veuillez entrer un nombre de jours valide.
+                        </div>
+                        {{ form_errors(form.totalDay) }}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        {{ form_label(form.registration, "Immatriculation", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.registration, {'attr': {'class': 'form-control', 'placeholder': 'Immatriculation'}}) }}
+                        <div class="invalid-feedback">
+                            Veuillez fournir une immatriculation valide.
+                        </div>
+                        {{ form_errors(form.registration) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        {{ form_label(form.payerOperator, "Opérateur de paiement", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.payerOperator, {'attr': {'class': 'form-select'}}) }}
+                        <div class="invalid-feedback">
+                            Veuillez choisir un opérateur de paiement.
+                        </div>
+                        {{ form_errors(form.payerOperator) }}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        {{ form_label(form.payerCurrency, "Devise", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.payerCurrency, {'attr': {'class': 'form-select'}}) }}
+                        {{ form_errors(form.payerCurrency) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        {{ form_label(form.payerAccountNumber, "Numéro de compte", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.payerAccountNumber, {'attr': {'class': 'form-control', 'placeholder': 'Numéro de compte'}}) }}
+                        <div class="invalid-feedback">
+                            Veuillez fournir un numéro de compte valide.
+                        </div>
+                        {{ form_errors(form.payerAccountNumber) }}
+                    </div>
+                </div>
+
+{#                <div class="col-md-6">#}
+{#                    <div class="mb-3">#}
+{#                        {{ form_label(form.countryCode, "Code pays", {'label_attr': {'class': 'form-label'}}) }}#}
+{#                        {{ form_widget(form.countryCode, {'attr': {'class': 'form-control',}}) }}#}
+{#                        {{ form_errors(form.countryCode) }}#}
+{#                    </div>#}
+{#                </div>#}
+            </div>
+
+{#            <div class="form-check mb-3">#}
+{#                {{ form_widget(form.isDefaultAmount, {'attr': {'class': 'form-check-input'}}) }}#}
+{#                {{ form_label(form.isDefaultAmount, "", {'label_attr': {'class': 'form-check-label'}}) }}#}
+{#                {{ form_errors(form.isDefaultAmount) }}#}
+{#            </div>#}
+
+            <button class="btn btn-primary" type="submit">Soumettre le formulaire</button>
+
+            {{ form_row(form._token) }}
+            {{ form_end(form, {'render_rest':false}) }}
+        </div>
+    </div>
+
+{% endblock %}

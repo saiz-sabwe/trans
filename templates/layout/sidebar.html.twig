@@ -1,0 +1,196 @@
+<!-- ========== Left Sidebar Start ========== -->
+<div class="vertical-menu">
+    <div data-simplebar="" class="h-100">
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title">Dashboard</li>
+
+                <li>
+                    <a href="{{ path('app_base_home') }}" class="waves-effect">
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    {#                                                            <a href="{{ path('calendar') }}" class="waves-effect"> #}
+                    <a href="{{ path('app_wallet_operation_activity') }}" class="waves-effect">
+                        <i class="mdi mdi-calendar-check"></i>
+                        <span>Mes activités</span>
+                    </a>
+                </li>
+
+                <li class="menu-title">Transport</li>
+
+                <li>
+                    <a href=" {{ path('app_wallet_operation') }}" class="has-arrow waves-effect">
+                        <i class="mdi mdi-email-outline"></i>
+                        <span>Nouvelle Recharge</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        {#                            <li><a href="{{ path('email_inbox') }}">Inbox</a></li> #}
+                        {#                            <li><a href="{{ path('email_read') }}">Email Read</a></li> #}
+                        {#                            <li><a href="{{ path('email_compose') }}">Email Compose</a></li> #}
+                    </ul>
+                </li>
+
+                <li class="menu-title">Parking</li>
+
+                <li>
+                    {#                                            <a href="{{ path('chat') }}" class="waves-effect"> #}
+                    <a href=" {{ path('app_subscription') }}" class="waves-effect">
+                        <i class="mdi mdi-chat-processing-outline"></i>
+                        {#                        <span class="badge rounded-pill bg-danger float-end">Nouvel Abonnement</span> #}
+                        <span>Nouvel Abonnement</span>
+                    </a>
+                </li>
+
+                {% if is_granted('ROLE_ADMIN') %}
+
+                    <li class="menu-title">Administration</li>
+
+                    <li>
+                        {#                                            <a href="{{ path('kanban_board') }}" class="waves-effect"> #}
+                        <a href="{{ path('admin') }}" class="waves-effect">
+                            <i class="mdi mdi-billboard"></i>
+                            <span class="badge rounded-pill bg-success float-end">New</span>
+                            <span>Cpanel</span>
+                        </a>
+                    </li>
+
+                {% endif %}
+
+                {#                <li class="menu-title">Components</li> #}
+
+                {#                <li> #}
+                {#                    <a href="javascript: void(0);" class="has-arrow waves-effect"> #}
+                {#                        <i class="mdi mdi-buffer"></i> #}
+                {#                        <span>UI Elements</span> #}
+                {#                    </a> #}
+                {#                    <ul class="sub-menu" aria-expanded="false"> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_alerts') }}">Alerts</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_buttons') }}">Buttons</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_badge') }}">Badge</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_cards') }}">Cards</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_carousel') }}">Carousel</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_dropdowns') }}">Dropdowns</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_utilities') }}">Utilities<span #}
+                {#                        #}{#                                            class="badge rounded-pill bg-success float-end">New</span></a> #}
+                {#                        #}{#                            </li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_grid') }}">Grid</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_images') }}">Images</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_lightbox') }}">Lightbox</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_modals') }}">Modals</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_colors') }}">Colors<span #}
+                {#                        #}{#                                            class="badge rounded-pill bg-warning float-end">New</span></a> #}
+                {#                        #}{#                            </li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_offcanvas') }}">Offcanvas</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_pagination') }}">Pagination</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_popover_tooltips') }}">Popover & Tooltips</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_range_slider') }}">Range Slider</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_session_timeout') }}">Session Timeout</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_progress_bars') }}">Progress Bars</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_sweet_alert') }}">Sweet-Alert</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_tabs_accordions') }}">Tabs & Accordions</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_typography') }}">Typography</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('ui_video') }}">Video</a></li> #}
+                {#                    </ul> #}
+                {#                </li> #}
+
+                {#                <li> #}
+                {#                    <a href="javascript: void(0);" class="waves-effect"> #}
+                {#                        <i class="mdi mdi-clipboard-outline"></i> #}
+                {#                        <span class="badge rounded-pill bg-success float-end">6</span> #}
+                {#                        <span>Forms</span> #}
+                {#                    </a> #}
+                {#                    <ul class="sub-menu" aria-expanded="false"> #}
+                {#                        #}{#                            <li><a href="{{ path('form_elements') }}">Form Elements</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('form_validation') }}">Form Validation</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('form_advanced') }}">Form Advanced</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('form_editors') }}">Form Editors</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('form_uploads') }}">Form File Upload</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('form_xeditable') }}">Form Xeditable</a></li> #}
+                {#                    </ul> #}
+                {#                </li> #}
+
+                {#                <li> #}
+                {#                    <a href="javascript: void(0);" class="has-arrow waves-effect"> #}
+                {#                        <i class="mdi mdi-chart-line"></i> #}
+                {#                        <span>Charts</span> #}
+                {#                    </a> #}
+                {#                    <ul class="sub-menu" aria-expanded="false"> #}
+                {#                        #}{#                            <li><a href="{{ path('charts_morris') }}">Morris Chart</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('charts_chartist') }}">Chartist Chart</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('charts_chartjs') }}">Chartjs Chart</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('charts_flot') }}">Flot Chart</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('charts_c3') }}">C3 Chart</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('charts_other') }}">Jquery Knob Chart</a></li> #}
+                {#                    </ul> #}
+                {#                </li> #}
+
+                {#                <li> #}
+                {#                    <a href="javascript: void(0);" class="has-arrow waves-effect"> #}
+                {#                        <i class="mdi mdi-format-list-bulleted-type"></i> #}
+                {#                        <span>Tables</span> #}
+                {#                    </a> #}
+                {#                    <ul class="sub-menu" aria-expanded="false"> #}
+                {#                        #}{#                            <li><a href="{{ path('tables_basic') }}">Basic Tables</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('tables_datatable') }}">Data Table</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('tables_responsive') }}">Responsive Table</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('tables_editable') }}">Editable Table</a></li> #}
+                {#                    </ul> #}
+                {#                </li> #}
+
+                {#                <li> #}
+                {#                    <a href="javascript: void(0);" class="has-arrow waves-effect"> #}
+                {#                        <i class="mdi mdi-album"></i> #}
+                {#                        <span>Icons</span> #}
+                {#                    </a> #}
+                {#                    <ul class="sub-menu" aria-expanded="false"> #}
+                {#                        #}{#                            <li><a href="{{ path('icons_material') }}">Material Design</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('icons_ion') }}">Ion Icons</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('icons_fontawesome') }}">Font Awesome</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('icons_themify') }}">Themify Icons</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('icons_dripicons') }}">Dripicons</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('icons_typicons') }}">Typicons Icons</a></li> #}
+                {#                    </ul> #}
+                {#                </li> #}
+
+                {#                <li> #}
+                {#                    <a href="javascript: void(0);" class="waves-effect"> #}
+                {#                        <span class="badge rounded-pill bg-danger float-end">2</span> #}
+                {#                        <i class="mdi mdi-google-maps"></i> #}
+                {#                        <span>Maps</span> #}
+                {#                    </a> #}
+                {#                    <ul class="sub-menu" aria-expanded="false"> #}
+                {#                        #}{#                            <li><a href="{{ path('maps_google') }}">Google Map</a></li> #}
+                {#                        #}{#                            <li><a href="{{ path('maps_vector') }}">Vector Map</a></li> #}
+                {#                    </ul> #}
+                {#                </li> #}
+
+                {#                <li class="menu-title">Extras</li> #}
+
+                {#                <li> #}
+                {#                    <a href="javascript: void(0);" class="has-arrow waves-effect"> #}
+                {#                        <i class="mdi mdi-responsive"></i> #}
+                {#                        <span>Layouts</span> #}
+                {#                    </a> #}
+                {#                    <ul class="sub-menu" aria-expanded="true"> #}
+                {#                        <li><a href="javascript: void(0);">Level 1.1</a></li> #}
+                {#                        <li><a href="javascript: void(0);" class="has-arrow">Level 1.2</a> #}
+                {#                            <ul class="sub-menu" aria-expanded="true"> #}
+                {#                                <li><a href="javascript: void(0);">Level 2.1</a></li> #}
+                {#                                <li><a href="javascript: void(0);">Level 2.2</a></li> #}
+                {#                            </ul> #}
+                {#                        </li> #}
+                {#                    </ul> #}
+                {#                </li> #}
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>
+<!-- Left Sidebar End -->

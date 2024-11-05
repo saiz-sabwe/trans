@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Register | Lexa - Admin & Dashboard Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
+    <meta content="Themesbrand" name="author">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+
+    <!-- Bootstrap Css -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css">
+    <!-- Icons Css -->
+    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
+    <!-- App Css-->
+    <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="account-pages my-5 pt-sm-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="card overflow-hidden">
+                    <div class="card-body pt-0">
+                        <h3 class="text-center mt-5 mb-4">
+                            <a href="{{ path('app_base_home') }}" class="d-block auth-logo">
+                                <img src="{{ asset('/img/makutatrans_blue.png') }}" alt="Logo" height="30" class="auth-logo-dark">
+                            </a>
+                        </h3>
+                        <div class="p-3">
+                            <h4 class="text-muted font-size-18 mb-1 text-center">Inscription gratuite</h4>
+                            <p class="text-muted text-center">Créez votre compte Makutatrans gratuitement.</p>
+
+                            {% for flash_error in app.flashes('verify_email_error') %}
+                                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                            {% endfor %}
+
+                            {{ form_start(registrationForm, { 'attr': { 'class': 'form-horizontal mt-4' } }) }}
+                            <div class="mb-3">
+                                {{ form_label(registrationForm.pseudo, 'Pseudo') }}
+                                {{ form_widget(registrationForm.pseudo, { 'attr': { 'class': 'form-control', 'placeholder': 'Entrez votre pseudo' } }) }}
+                                {{ form_errors(registrationForm.pseudo) }}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(registrationForm.username, 'Compte utilisateur') }}
+                                {{ form_widget(registrationForm.username, { 'attr': { 'class': 'form-control', 'placeholder': 'Numéro de téléphone valide' } }) }}
+                                {{ form_errors(registrationForm.username) }}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(registrationForm.plainPassword, 'Mot de passe') }}
+                                {{ form_widget(registrationForm.plainPassword, { 'attr': { 'class': 'form-control', 'placeholder': 'Entrez un mot de passe valide' } }) }}
+                                {{ form_errors(registrationForm.plainPassword) }}
+                            </div>
+
+
+                            <div class="mb-3">
+                                {{ form_label(registrationForm.agreeTerms) }}
+                                {{ form_widget(registrationForm.agreeTerms, { 'attr': { 'class': 'form-check-input' } }) }}
+                                {{ form_errors(registrationForm.agreeTerms) }}
+                            </div>
+
+                            <div class="mb-3 row mt-4">
+                                <div class="col-12 text-end">
+                                    <button type="submit" class="btn btn-primary w-md waves-effect waves-light">Register</button>
+                                </div>
+                            </div>
+
+                            <div class="mb-0 row">
+                                <div class="col-12 mt-4">
+                                    <p class="text-muted mb-0 font-size-14">En vous inscrivant, vous acceptez les <a href="#" class="text-primary">conditions d'utilisation</a> de Makutatrans.</p>
+                                </div>
+                            </div>
+                            {{ form_end(registrationForm) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-5 text-center">
+                    <p>Vous avez déjà un compte ? <a href="{{ path('app_login') }}" class="text-primary"> Connexion </a></p>
+                    © <script>document.write(new Date().getFullYear())</script> Makutatrans <span class="d-none d-sm-inline-block"> - Créé avec <i class="mdi mdi-heart text-danger"></i> WOLF TECHNOLOGIES.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}"></script>
+<script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
+<script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
+<script src="{{ asset('assets/libs/jquery-sparkline/jquery.sparkline.min.js') }}"></script>
+<!-- App js -->
+<script src="{{ asset('assets/js/app.js') }}"></script>
+</body>
+
+</html>

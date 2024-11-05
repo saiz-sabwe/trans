@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    <!-- Styles CSS du nouveau modèle -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body %}
+    <div class="account-pages my-5 pt-sm-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card overflow-hidden">
+                        <div class="card-body pt-0">
+                            <h3 class="text-center mt-5 mb-4">
+                                <a href="{{ path("app_base_home") }}" class="d-block auth-logo">
+                                    <img src="{{ asset('/img/makutatrans_blue.png') }}" alt="Logo" height="30" class="auth-logo-dark">
+                                    <img src="{{ asset('/img/makutatrans_blue.png') }}" alt="Logo" height="30" class="auth-logo-light">
+                                </a>
+                            </h3>
+                            <div class="p-3">
+                                <h4 class="text-muted font-size-18 mb-1 text-center">Me connecter</h4>
+                                <p class="text-muted text-center">Connectez-vous pour continuer.</p>
+
+                                {% if error %}
+                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
+
+                                {% if app.user %}
+                                    <div class="mb-3 text-center">
+                                        Vous êtes connecté en tant que {{ app.user.userIdentifier }}.
+                                        <a href="{{ path('app_logout') }}">Déconnexion</a>
+                                    </div>
+                                {% else %}
+                                    <form class="form-horizontal mt-4" method="post">
+                                        <div class="mb-3">
+                                            <label for="username">Compte utilisateur</label>
+                                            <input type="text" name="_username" id="username" class="form-control" value="{{ last_username }}" required autofocus placeholder="Numéro de téléphone valide">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="password">Mot de passe</label>
+                                            <input type="password" name="_password" id="password" class="form-control" required placeholder="Mot de passe valide">
+                                        </div>
+
+                                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                                        <div class="mb-3 row mt-4">
+                                            <div class="col-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" name="_remember_me" id="_remember_me" class="form-check-input">
+                                                    <label class="form-check-label" for="_remember_me">Se souvenir de moi</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 text-end">
+                                                <button type="submit" class="btn btn-primary w-md waves-effect waves-light">Me connecter</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-0 row">
+                                            <div class="col-12 mt-4 text-center">
+                                                <a href="#" class="text-muted"><i class="mdi mdi-lock"></i> Mot de passe oublié?</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5 text-center">
+                        <p>Vous n'avez pas de compte ? <a href="#" class="text-primary">Créer un compte</a></p>
+                        © <script>document.write(new Date().getFullYear())</script> Makutatrans <span class="d-none d-sm-inline-block"> - Créé avec <i class="mdi mdi-heart text-danger"></i> par WOLF TECHNOLOGIES.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Scripts JS du nouveau modèle -->
+    <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User info{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .profile-card {
+            margin: 2em auto;
+            max-width: 600px;
+            width: 100%;
+            font: 18px/1.5 sans-serif;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+        }
+        .card-footer {
+            background-color: #f8f9fa;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card profile-card">
+                    <div class="card-header text-center">
+                        <h3>Profil de {{ user.pseudo }}</h3>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Phone: {{ user.username }}</h5>
+                        <p class="card-text fst-italic text-muted" style="font-size: 0.775rem;">{{ slogan }}</p>
+                    </div>
+
+                    <a href="{{ path('app_wallet_operation_activity') }}" class="btn btn-primary" style="padding: 10px 20px;">Voir mon activité</a>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

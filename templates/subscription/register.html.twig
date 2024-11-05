@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dernières opérations{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .operations-table {
+            margin: 2em auto;
+            max-width: 800px;
+            width: 100%;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+        }
+        .card-footer {
+            background-color: #f8f9fa;
+        }
+        table {
+            width: 100%; /* Utilisation de 100% pour s'adapter à la largeur de la carte */
+            max-width: 1000px; /* Largeur maximale du tableau */
+            margin-top: 20px;
+            table-layout: fixed; /* Fixe la largeur des colonnes */
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            word-wrap: break-word; /* Assure que le texte trop long s'ajuste */
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        td {
+            background-color: #f8f9fa;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card operations-table">
+                    <div class="card-header text-center">
+                        <h3>Mes Abonnements récentes</h3>
+                    </div>
+
+                    <a href="{{ path('app_wallet_operation') }}" class="btn btn-primary" style="padding: 10px 20px;">Nouvel Abonnement</a>
+
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Vehicule</th>
+                                <th>Abonnement</th>
+                                <th>Montant</th>
+                                <th>Date de Fin</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for subscription in subscriptions %}
+                                <tr>
+                                    <td>{{ subscription.id }}</td>
+                                    <td>{{ subscription.registration }}</td>
+                                    <td>{{ subscription.categoryLabel }}</td>
+                                    <td>{{ subscription.amount }}</td>
+                                    <td>{{ subscription.dateEnd ? subscription.dateEnd|date('d/m/Y H:i') : 'N/A' }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center">Aucune subscription trouvée.</td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

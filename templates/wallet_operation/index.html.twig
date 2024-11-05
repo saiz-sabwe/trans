@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle recharge {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Nouvelle Recharge</h4>
+            <p class="card-title-desc">
+                Veuillez remplir les informations ci-dessous pour recharger votre compte.
+            </p>
+
+            {{ form_start(form, { 'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'} }) }}
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        {{ form_label(form.payerOperator, "Opérateur de paiement", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.payerOperator, {'attr': {'class': 'form-select'}}) }}
+                        <div class="invalid-feedback">
+                            Veuillez choisir un opérateur de paiement.
+                        </div>
+                        {{ form_errors(form.payerOperator) }}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        {{ form_label(form.amount, "Montant", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.amount, {'attr': {'class': 'form-control', 'placeholder': 'Montant'}}) }}
+                        <div class="invalid-feedback">
+                            Veuillez entrer un montant valide.
+                        </div>
+                        {{ form_errors(form.amount) }}
+                    </div>
+                </div>
+            </div>
+
+{#            <div class="form-check mb-3">#}
+{#                {{ form_widget(form.isDefaultAmount, {'attr': {'class': 'form-check-input'}}) }}#}
+{#                {{ form_label(form.isDefaultAmount, "Utiliser le montant par défaut", {'label_attr': {'class': 'form-check-label'}}) }}#}
+{#                {{ form_errors(form.isDefaultAmount) }}#}
+{#            </div>#}
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        {{ form_label(form.payerCurrency, "Devise", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.payerCurrency, {'attr': {'class': 'form-select'}}) }}
+                        <div class="invalid-feedback">
+                            Veuillez choisir une devise.
+                        </div>
+                        {{ form_errors(form.payerCurrency) }}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        {{ form_label(form.payerAccountNumber, "Numéro de compte", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.payerAccountNumber, {'attr': {'class': 'form-control', 'placeholder': 'Numéro de compte'}}) }}
+                        <div class="invalid-feedback">
+                            Veuillez entrer un numéro de compte valide.
+                        </div>
+                        {{ form_errors(form.payerAccountNumber) }}
+                    </div>
+                </div>
+            </div>
+
+{#            <div class="mb-3">#}
+{#                {{ form_label(form.countryCode, "Code Pays", {'label_attr': {'class': 'form-label'}}) }}#}
+{#                {{ form_widget(form.countryCode, {'attr': {'class': 'form-control', 'placeholder': 'Code Pays'}}) }}#}
+{#                <div class="invalid-feedback">#}
+{#                    Veuillez entrer un code pays valide.#}
+{#                </div>#}
+{#                {{ form_errors(form.countryCode) }}#}
+{#            </div>#}
+
+            <button class="btn btn-primary" type="submit">Soumettre la recharge</button>
+
+            {{ form_row(form._token) }}
+            {{ form_end(form, {'render_rest':false}) }}
+        </div>
+    </div>
+
+{% endblock %}
