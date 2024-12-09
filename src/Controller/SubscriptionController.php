@@ -59,7 +59,7 @@ class SubscriptionController extends AbstractController
 
                 $this->logger->info("# SubscriptionController > create: data submitted", $structure);
 
-                $result = $this->subscriptionService->create($structure);
+                $result = $this->subscriptionService->create($structure,"momo");
 //                $result = [
 //                    "postAction"=>[
 //                        "message"=>"Votre message ya tokosssssssss",
