@@ -232,6 +232,8 @@ class WalletOperationService
         if($channel !== "momo")
         {
 
+            $this->logger->info("# WalletOperationService > closeTopup: channel value", ['channel' => $channel]);
+
             $wallet = $walletOperation->getWallet();
 
             if(!($wallet instanceof Wallet))
