@@ -42,18 +42,18 @@ class ApiMakutaController extends AbstractController
         try {
             $this->logger->info("# ApiMakutaController > apiCallbackResult: Start");
 
-            // Get the Authorization header
-            $bearerToken = $request->headers->get('Authorization');
-
-            // Extract the username from the JWT token
-            $username = $this->jwtDecoderService->getUsernameFromBearerToken($bearerToken);
-
-            $this->logger->info("# ApiMakutaController > username : data received",["username"=>$username]);
-
-            //TODO: a refractorer
-
-            $user = $this->userService->findByUsername($username);
-            $this->logger->info("# ApiMakutaController > $user : data received",["user"=>$user]);
+//            // Get the Authorization header
+//            $bearerToken = $request->headers->get('Authorization');
+//
+//            // Extract the username from the JWT token
+//            $username = $this->jwtDecoderService->getUsernameFromBearerToken($bearerToken);
+//
+//            $this->logger->info("# ApiMakutaController > username : data received",["username"=>$username]);
+//
+//            //TODO: a refractorer
+//
+//            $user = $this->userService->findByUsername($username);
+//            $this->logger->info("# ApiMakutaController > $user : data received",["user"=>$user]);
 
 
 
