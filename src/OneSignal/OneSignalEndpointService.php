@@ -22,7 +22,7 @@ class OneSignalEndpointService
     }
 
 //    #[ArrayShape(["status" => "string", "response" => "string", "message" => "string"])]
-    public function sendPushNotification(string $externalId, string $code, string $message): array
+    public function sendPushNotification(string $externalId, string $title, string $message, array $custom = []): array
     {
 
         $this->logger->info("# OneSignalEndpointService > sendPushNotification : Start");
@@ -39,7 +39,7 @@ class OneSignalEndpointService
             'app_id' => 'bc4a2111-cc08-4562-8c99-3fd868ee52e1',
             'target_channel' => 'push',
             'headings' => [
-                'en' => 'Makuta Trans',
+                'en' => $title,
             ],
             'contents' => [
                 'en' => $message,
@@ -49,10 +49,7 @@ class OneSignalEndpointService
                     $externalId,
                 ],
             ],
-            'data'=> [
-                'code' => $code,
-                'key2' => 'value2'
-            ]
+            'data'=> $custom
         ];
 
         try {

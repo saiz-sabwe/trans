@@ -29,22 +29,13 @@ class OneSignalService
     }
 
 //    #[ArrayShape(["status" => "string", "response" => "string", "message" => "string"])]
-    public function sendPushNotification(array $data,$id): array
+    public function sendPushNotification(string $title, string $message, $id, array $custom=[]): array
     {
         $this->logger->info("# OneSignalService > sendPushNotification : Start");
-//        $user = $this->security->getUser();
-//        if (!($user instanceof User))
-//        {
-//            throw new \RuntimeException("Utilisateur non trouvé", Response::HTTP_NOT_FOUND);
-//        }
-//        $userId = $user?->getId();
 
-        $code = $data["code"];
-        $message = $data["message"];
         $externalId = $id;
 
-
-        return $result = $this->oes->sendPushNotification($externalId,$code,$message);
+        return $result = $this->oes->sendPushNotification($externalId,$title,$message,$custom);
 
     }
 }

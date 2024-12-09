@@ -13,6 +13,7 @@ use App\Entity\WalletOperationDetail;
 
 use App\Entity\WalletOperationItineraryDetails;
 use App\Makuta\MakutaEndpointService;
+use App\OneSignal\OneSignalService;
 use App\Repository\WalletOperationDetailRepository;
 use App\Repository\WalletOperationRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,6 +47,7 @@ class WalletOperationService
     private ItineraryPricingService $itineraryPricingService;
     private EnginAgentService $enginAgentService;
     private WalletOperationDetailService $wods;
+    private OneSignalService $oneSignalService;
 
 
     public function __construct(EntityManagerInterface $entityManager,
@@ -59,7 +61,9 @@ class WalletOperationService
                                 ItineraryPricingService $itineraryPricingService,
                                 WalletOperationRepository $walletOperationRepository,
                                 WalletOperationDetailRepository $walletOperationDetailRepository,
-                                EnginAgentService $enginAgentService, WalletOperationDetailService $wods)
+                                EnginAgentService $enginAgentService, WalletOperationDetailService $wods,
+                                OneSignalService $oneSignalService,
+    )
 
     {
         $this->entityManager = $entityManager;
@@ -77,6 +81,7 @@ class WalletOperationService
         $this->itineraryPricingService = $itineraryPricingService;
         $this->enginAgentService = $enginAgentService;
         $this->wods = $wods;
+        $this->oneSignalService = $oneSignalService;
     }
 
 
@@ -187,7 +192,7 @@ class WalletOperationService
         ];
     }
 
-    public function closeTopup(string $makutaId, int $c2bStatus): void
+    public function closeTopup(string $makutaId, int $c2bStatus, string $id): void
     {
         $this->logger->info("# WalletOperationService > closeTopup: Start", ['makutaId' => $makutaId, 'c2bStatus' => $c2bStatus]);
 
@@ -208,6 +213,8 @@ class WalletOperationService
         if($c2bStatus !== Response::HTTP_OK)
         {
             $this->entityManager->flush();
+         //   $id = "0191a900-1d23-75b7-95de-4a6f96705a75";
+            $notification = $this->oneSignalService->sendPushNotification("Makuta trans","Paiement annulé",$id);
             throw new \RuntimeException("Paiement annulé", Response::HTTP_NOT_ACCEPTABLE);
         }
         //endregion
@@ -223,6 +230,7 @@ class WalletOperationService
         if($subscription instanceof Subscription){
             $subscription->setC2bStatus($c2bStatus);
             $this->entityManager->persist($subscription);
+            $this->oneSignalService->sendPushNotification("Makuta trans","Paiement réussi",$id,["dateEnd"=>$subscription->getDateEnd(),"registration"=>$subscription->getEngin()->getRegistration()]);
         }
 
 

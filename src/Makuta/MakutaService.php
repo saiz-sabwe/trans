@@ -2,7 +2,6 @@
 
 namespace App\Makuta;
 
-use App\OneSignal\OneSignalService;
 use App\Service\ArrayService;
 use App\Service\WalletOperationService;
 use Psr\Log\LoggerInterface;
@@ -19,15 +18,13 @@ class MakutaService
     private ArrayService $arrayService;
     private WalletOperationService $walletOperationService;
     private MakutaEndpointService $makutaEndpointService;
-    private OneSignalService $oneSignalService;
 
-    public function __construct(LoggerInterface $logger, ArrayService $arrayService, WalletOperationService $walletOperationService, MakutaEndpointService $makutaEndpointService,OneSignalService $oneSignalService)
+    public function __construct(LoggerInterface $logger, ArrayService $arrayService, WalletOperationService $walletOperationService, MakutaEndpointService $makutaEndpointService)
     {
         $this->logger = $logger;
         $this->arrayService = $arrayService;
         $this->walletOperationService = $walletOperationService;
         $this->makutaEndpointService = $makutaEndpointService;
-        $this->oneSignalService = $oneSignalService;
     }
 
     public function callbackResult(array $data): void
@@ -54,13 +51,15 @@ class MakutaService
 
         $ft = $dataContent['financialTransaction'];
         $code = $data['code'];
+        $id =  $dataContent['user'];
 
-        //declencher la notification oneSignal
-        $id = "0191a900-1d23-75b7-95de-4a6f96705a75";
-        $notification = $this->oneSignalService->sendPushNotification($data,$id);
 
-        $this->walletOperationService->closeTopup($ft, $code);
 
+        $this->walletOperationService->closeTopup($ft, $code,$id);
+
+//        //declencher la notification oneSignal
+//        $id = "0191a900-1d23-75b7-95de-4a6f96705a75";
+//        $notification = $this->oneSignalService->sendPushNotification($data,$id);
 
         $this->logger->info("# MakutaService > callbackResult: end Successfully", ['dataReceived' => $data]);
     }
