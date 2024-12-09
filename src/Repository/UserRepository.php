@@ -43,6 +43,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getOneOrNullResult();
     }
 
+    public function findByRole(string $role, bool $isDeleted = null)
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        $qb
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%"ROLE_'. $role .'"%');
+//            ->setParameter('role', 'ROLE_"' . $role . '"%');
+
+        if ($isDeleted !== null)
+        {
+            $qb->andWhere('u.isDeleted = :isDeleted')
+                ->setParameter('isDeleted', $isDeleted);
+        }
+
+        return $qb;
+    }
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

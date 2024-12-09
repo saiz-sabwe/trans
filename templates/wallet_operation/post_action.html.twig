@@ -23,11 +23,25 @@
 
 {% block body %}
 
-    <div class="container center-container">
-        <div class="message-box text-center">
-            <div class="alert alert-{{ label }} text-center">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}" role="alert">
                 {{ message }}
             </div>
+        {% endfor %}
+    {% endfor %}
+
+
+    <div class="container center-container">
+        <div class="message-box text-center">
+{#            <div class="alert alert-{{ label }} text-center">#}
+{#                {{ message }}#}
+{#            </div>#}
+                {% for message in messages %}
+                    <div class="alert alert-success text-center" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
 
         </div>
     </div>

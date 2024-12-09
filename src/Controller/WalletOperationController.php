@@ -68,6 +68,12 @@ class WalletOperationController extends AbstractController
 
                 $result = $this->walletOperationService->createTopup($amount, $payerOperator, $payerCurrency, $payerAccountNumber);
 
+//                $result = [
+//                    "postAction"=>[
+//                        "message"=>"Votre message ya tokosssssssss < recharge",
+//                    ]
+//                ];
+
                 $postAction = $result["postAction"];
                 $this->logger->info("# WalletOperationController > createWalletOperation: postAction", ["postAction" => $postAction]);
 
@@ -86,28 +92,26 @@ class WalletOperationController extends AbstractController
                         return new RedirectResponse($paymentUrl);
                     }
                     $this->logger->info("# WalletOperationController > createWalletOperation: pymnt url nul");// Dans un autre contrôleur ou méthode
-                    return $this->redirectToRoute('app_post_action', [
-                        'message' => $message,
-                        'label' => "success",
-                    ]);
+                    $this->addFlash('success_message', $message);
+                    return $this->redirectToRoute('app_base_home');
 
                 }
 
                 $this->logger->info("# WalletOperationController > createWalletOperation:post action nul");
 
-                return $this->redirectToRoute('app_post_action', [
-                    'label' => "danger",
-                ]);
+                return $this->redirectToRoute('app_base_home');
+
             } catch (\Exception $e) {
                 $this->logger->info("# WalletOperationController > createWalletOperation:exception ");
                 $exception = $this->exceptionService->getException($e);
                 $message = $exception['message'];
                 $this->logger->info("# WalletOperationController > createWalletOperation:exception", ["message"=>$message]);
                 $this->addFlash("danger_message", $exception['message']);
-                return $this->redirectToRoute('app_post_action', [
-                    'message' => $message,
-                    'label' => "danger",
+                return $this->render('wallet_operation/index.html.twig', [
+                    'form' => $form->createView(),
                 ]);
+
+
             }
         }
 
@@ -117,14 +121,15 @@ class WalletOperationController extends AbstractController
         ]);
     }
 
-    #[Route('/wallet/operation/result/{message}/{label}', name: 'app_post_action')]
-    public function index(string $message, string $label): Response
-    {
-        return $this->render('wallet_operation/post_action.html.twig', [
-            'message' => $message,
-            'label' => $label,
-        ]);
-    }
+//    #[Route('/wallet/operation/result', name: 'app_post_action')]
+//    public function index(): Response
+//    {
+//        return $this->render('wallet_operation/post_action.html.twig');
+//        return $this->render('wallet_operation/post_action.html.twig', [
+//            'message' => $message,
+//            'label' => $label,
+//        ]);
+//    }
 
 
     #[Route('/makuta/callback', name: 'app_makuta_callback', methods: ['POST'])]
@@ -173,14 +178,14 @@ class WalletOperationController extends AbstractController
 
     }
 
-    #[Route('/makuta/redirect', name: 'app_makuta_redirect')]
+//    #[Route('/makuta/redirect', name: 'app_makuta_redirect')]
+    #[Route('/drc/card/redirect-url', name: 'app_makuta_redirect')]
     public function redirectVisa(): Response
     {
         // Dans un autre contrôleur ou méthode
-        return $this->redirectToRoute('app_post_action', [
-            'message' => "paiement en cours",
-            'label' => "success",
-        ]);
+        $this->addFlash('success_message', "paiement en cours");
+        return $this->redirectToRoute('app_base_home');
+
     }
 
 }

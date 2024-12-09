@@ -9,6 +9,16 @@ security:
             entity:
                 class: App\Entity\User
                 property: username
+
+    role_hierarchy:
+        ROLE_INTEGRATOR: ROLE_USER
+        ROLE_ADMIN_PANEL: [ROLE_USER]
+        ROLE_DRIVER: [ROLE_USER]
+        ROLE_COLLECTOR: [ROLE_USER]
+        ROLE_VERIFICATOR: [ROLE_COLLECTOR]
+        ROLE_ADMIN: [ ROLE_USER, ROLE_ADMIN_PANEL, ROLE_DRIVER, ROLE_VERIFICATOR ]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_INTEGRATOR]
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -30,8 +40,11 @@ security:
             pattern: ^/api
             stateless: true
             jwt: ~
+#            user_checker: App\Security\UserChecker
 
         main:
+            pattern: ^/
+#            user_checker: App\Security\UserChecker
             lazy: true
             provider: app_user_provider
             form_login:
@@ -57,12 +70,12 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         #Attention garder /api/login public et non /api/login_check
-        - { path: ^/api/login$, roles: PUBLIC_ACCESS }
         - { path: ^/login$, roles: PUBLIC_ACCESS }
-        - { path: ^/register, roles: PUBLIC_ACCESS }
-        - { path: ^/api/makuta/callback-result$, roles: PUBLIC_ACCESS }
+        - { path: ^/register$, roles: PUBLIC_ACCESS }
+        - { path: ^/callback/drc/makuta/ctob-callback-result$, roles: PUBLIC_ACCESS }
+#        - { path: ^/api/, roles: ROLE_INTEGRATOR }
+        - { path: ^/admin, roles: ROLE_ADMIN_PANEL }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

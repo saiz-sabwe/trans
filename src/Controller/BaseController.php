@@ -28,19 +28,12 @@ class BaseController extends AbstractController
     #[Route('/', name: 'app_base_home')]
     public function index(): Response
     {
-
         $user = $this->getUser();
 
-        if(!($user instanceof User))
-        {
-            throw new \RuntimeException("Utilisateur non connecté", Response::HTTP_UNAUTHORIZED);
-        }
-
-        $lastOperations = $this->walletOperationService->getLatestOperation(5);
         $balance = $this->walletService->getBalance($user);
 
         return $this->render('base/index.html.twig', [
-            'operations' => $lastOperations,
+            'controller_name' => 'BaseController',
             'balance'=> $balance
         ]);
     }
@@ -67,12 +60,11 @@ class BaseController extends AbstractController
             throw new \RuntimeException("Utilisateur non connecté", Response::HTTP_UNAUTHORIZED);
         }
 
-        $lastOperations = $this->walletOperationService->getLatestOperation(50);
-        $balance = $this->walletService->getBalance($user);
+        $lastOperations = $this->walletOperationService->getLatestOperation();
+       
 
         return $this->render('base/wallet.html.twig', [
-            'operations' => $lastOperations,
-            'balance'=> $balance
+            'operations' => $lastOperations
         ]);
     }
 }

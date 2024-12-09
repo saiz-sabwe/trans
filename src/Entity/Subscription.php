@@ -18,23 +18,30 @@ class Subscription
     #[Groups(['api'])]
     private ?Uuid $id = null;
 
-
+    #[Groups(['api'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateCreated = null;
 
+    #[Groups(['api'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateBegin = null;
 
+    #[Groups(['api'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateEnd = null;
 
+    #[Groups(['api'])]
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?SubscriptionPricing $subscriptionPricing = null;
 
+    #[Groups(['api'])]
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Engin $engin = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $c2bStatus = null;
 
     public function __construct()
     {
@@ -102,6 +109,18 @@ class Subscription
     public function setEngin(?Engin $engin): static
     {
         $this->engin = $engin;
+
+        return $this;
+    }
+
+    public function getC2bStatus(): ?int
+    {
+        return $this->c2bStatus;
+    }
+
+    public function setC2bStatus(?int $c2bStatus): static
+    {
+        $this->c2bStatus = $c2bStatus;
 
         return $this;
     }

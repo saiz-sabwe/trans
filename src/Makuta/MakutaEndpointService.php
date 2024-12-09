@@ -3,6 +3,7 @@
 namespace App\Makuta;
 
 use App\Entity\User;
+use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -38,6 +39,8 @@ class MakutaEndpointService
         // Préparer les headers et le body pour l'API de Makuta
         $url = $this->params->get('base.url') . '/auth/login/token';
 
+        $this->logger->info('# MakutaService < login : url data',["url"=>$url]);
+
         $headers = [
             'App-Token' => $this->params->get('app.token'),
             'Content-Type' => 'application/json',
@@ -48,7 +51,7 @@ class MakutaEndpointService
             'password' => $password,
         ];
 
-        try {
+//        try {
             // Envoyer la requête POST vers Makuta
             $response = $this->httpClient->request('POST', $url, [
                 'headers' => $headers,
@@ -57,6 +60,7 @@ class MakutaEndpointService
 
             // Traiter la réponse
             $statusCode = $response->getStatusCode();
+
             $content = $response->toArray();
             $headers = $response->getHeaders();
 
@@ -72,11 +76,11 @@ class MakutaEndpointService
 
                 throw new \RuntimeException("connection failed", Response::HTTP_UNAUTHORIZED);
             }
-        } catch (\Exception $e) {
-
-            // Gérer les erreurs réseau ou autres
-            $this->logger->error('Error communicating with Makuta', ['exception' => $e->getMessage()]);
-        }
+//        } catch (Exception $e) {
+//
+//            // Gérer les erreurs réseau ou autres
+//            $this->logger->error('Error communicating with Makuta', ['exception' => $e->getMessage()]);
+//        }
 
 
         return $userToken;
@@ -89,6 +93,7 @@ class MakutaEndpointService
      * @throws ClientExceptionInterface
      * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
+     * @throws Exception
      */
     #[ArrayShape(["makutaId" => "string", "message" => "string", "postAction" => []])]
     public function createTransaction(float $amount, string $description, string $walletOperationId, string $payerAccountNumber, string $payerOperator, string $payerCurrency): array
@@ -100,14 +105,10 @@ class MakutaEndpointService
         $username = $this->params->get('app.username');
         $password = $this->params->get('app.password');
 
-        $userToken = $this->login($username, $password);
+        $userToken = $this->login( $username, $password);
 
-//        if (!($userToken) instanceof User) {
-//            throw new \RuntimeException("Connection failed", Response::HTTP_UNAUTHORIZED);
-//        }
-
-        if ($userToken ===null) {
-            throw new \RuntimeException("Connection failed", Response::HTTP_UNAUTHORIZED);
+        if (empty($userToken)) { // Handles null, empty string, or false
+            throw new Exception('Authentication failed.');
         }
 
         $this->logger->info('# MakutaService < createTransaction : User token obtained', ['userToken' => $userToken]);
@@ -256,5 +257,68 @@ class MakutaEndpointService
 
     }
 
+    /**
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     */
+    public function makutaOperator(): array
+    {
+        $this->logger->info("# MakutaService > makutaOperator : Start");
+
+        //region Récupérer le token utilisateur
+        $username = $this->params->get('app.username');
+        $password = $this->params->get('app.password');
+
+        $userToken = $this->login($username, $password);
+        //endregion
+
+        if (empty($userToken)) {
+            throw new \RuntimeException("Connection failed", Response::HTTP_UNAUTHORIZED);
+        }
+
+        //l'url de makuta pour l'envoie du callback
+        $url = $this->params->get('base.url') . '/api/v2/financial-corporation/receive-request';
+
+        //region headers de la requete pour contacter le serveur makuta
+        $headers = [
+            'Authorization' => 'Bearer ' . $userToken,
+            'App-Token' => $this->params->get('app.token'),
+            'Content-Type' => 'application/json',
+        ];
+        //endregion
+        //region Envoyer la requête POST vers Makuta
+        $response = $this->httpClient->request('GET', $url, [
+            'headers' => $headers,
+        ]);
+        //endregion
+
+        $statusCode = $response->getStatusCode();
+
+        //region Si le code est different de 200 (renvoyer un message d'erreur)
+        if ($statusCode !== Response::HTTP_OK) {
+            $errorContent = $response->toArray(false); // Récupérer le contenu de la réponse
+            $errorMessage = $errorContent['message'] ?? $response->getContent(false); // Extraire le message d'erreur si disponible
+
+            $this->logger->error("Transaction failed ::: Si le statut n'est pas 200, lever une exception avec le message d'erreur du serveur", [
+                'statusCode' => $statusCode,
+                'errorMessage' => $errorMessage
+            ]);
+
+            throw new \RuntimeException($errorMessage, $statusCode);
+        }
+        //endregion
+
+        //region traitement de la reponse
+        $data = $response->toArray();
+        $this->logger->info('# MakutaService < makutaOperator : Response data', ['content' => $data]);
+        //endregion
+
+        return $data;
+
+
+    }
 
 }

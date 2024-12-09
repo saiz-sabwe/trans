@@ -6,6 +6,7 @@
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
+/config/secrets/
 /public/bundles/
 /var/
 /vendor/
@@ -23,7 +24,7 @@
 ###< symfony/phpunit-bridge ###
 
 ###> symfony/asset-mapper ###
-/public/assets/
+#/public/assets/
 /assets/vendor/
 /assets/theme/
 ###< symfony/asset-mapper ###

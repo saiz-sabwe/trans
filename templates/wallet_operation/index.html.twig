@@ -4,83 +4,97 @@
 
 {% block body %}
 
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Nouvelle Recharge</h4>
-            <p class="card-title-desc">
-                Veuillez remplir les informations ci-dessous pour recharger votre compte.
-            </p>
+    <div class="container d-flex flex-column justify-content-center align-items-center vh-100">
 
-            {{ form_start(form, { 'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'} }) }}
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        {{ form_label(form.payerOperator, "Opérateur de paiement", {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.payerOperator, {'attr': {'class': 'form-select'}}) }}
-                        <div class="invalid-feedback">
-                            Veuillez choisir un opérateur de paiement.
-                        </div>
-                        {{ form_errors(form.payerOperator) }}
-                    </div>
+        <div>
+            {% for message in app.flashes('danger_message') %}
+                <div class="alert alert-danger flash-message" role="alert">
+                    {{ message }}
                 </div>
+            {% endfor %}
+        </div>
 
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        {{ form_label(form.amount, "Montant", {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.amount, {'attr': {'class': 'form-control', 'placeholder': 'Montant'}}) }}
-                        <div class="invalid-feedback">
-                            Veuillez entrer un montant valide.
-                        </div>
-                        {{ form_errors(form.amount) }}
-                    </div>
-                </div>
+        <div class="card p-4 shadow" style="max-width: 450px; width: 100%;">
+            <div class="text-center mb-4">
+                <h4 class="fw-bold">Nouvelle recharge</h4>
+                <p class="text-muted">Rechargez votre compte pour payer plus vite, en toute sécurité et sans tracas à chaque trajet.</p>
+
             </div>
 
-{#            <div class="form-check mb-3">#}
-{#                {{ form_widget(form.isDefaultAmount, {'attr': {'class': 'form-check-input'}}) }}#}
-{#                {{ form_label(form.isDefaultAmount, "Utiliser le montant par défaut", {'label_attr': {'class': 'form-check-label'}}) }}#}
-{#                {{ form_errors(form.isDefaultAmount) }}#}
-{#            </div>#}
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        {{ form_label(form.payerCurrency, "Devise", {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.payerCurrency, {'attr': {'class': 'form-select'}}) }}
-                        <div class="invalid-feedback">
-                            Veuillez choisir une devise.
-                        </div>
-                        {{ form_errors(form.payerCurrency) }}
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        {{ form_label(form.payerAccountNumber, "Numéro de compte", {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.payerAccountNumber, {'attr': {'class': 'form-control', 'placeholder': 'Numéro de compte'}}) }}
-                        <div class="invalid-feedback">
-                            Veuillez entrer un numéro de compte valide.
-                        </div>
-                        {{ form_errors(form.payerAccountNumber) }}
-                    </div>
-                </div>
+            {{ form_start(form) }}
+            <div class="mb-3">
+                {{ form_label(form.payerOperator, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.payerOperator, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.payerOperator) }}
             </div>
 
-{#            <div class="mb-3">#}
-{#                {{ form_label(form.countryCode, "Code Pays", {'label_attr': {'class': 'form-label'}}) }}#}
-{#                {{ form_widget(form.countryCode, {'attr': {'class': 'form-control', 'placeholder': 'Code Pays'}}) }}#}
-{#                <div class="invalid-feedback">#}
-{#                    Veuillez entrer un code pays valide.#}
-{#                </div>#}
-{#                {{ form_errors(form.countryCode) }}#}
-{#            </div>#}
+            <div class="mb-3">
+                {{ form_label(form.amount, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.amount, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.amount) }}
+            </div>
 
-            <button class="btn btn-primary" type="submit">Soumettre la recharge</button>
+            <div class="mb-3">
+                {{ form_widget(form.isDefaultAmount, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.isDefaultAmount) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.payerCurrency, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.payerCurrency, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.payerCurrency) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.payerAccountNumber, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.payerAccountNumber, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.payerAccountNumber) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_widget(form.countryCode, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.countryCode) }}
+            </div>
+
+            <div class="d-grid mt-4">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-danger'}}) }}
+            </div>
 
             {{ form_row(form._token) }}
-            {{ form_end(form, {'render_rest':false}) }}
+            {{ form_end(form, {'render_rest': false}) }}
         </div>
     </div>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const phoneInput = document.querySelector("#wallet_operation_payerAccountNumber");
+
+            // Initialisation d'intl-tel-input
+            const iti = window.intlTelInput(phoneInput, {
+                initialCountry: "cd", // Pays par défaut
+                preferredCountries: ["cd", "fr", "us", "gb"],
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+
+            // Ajouter les classes Bootstrap au conteneur
+            // const itiContainer = phoneInput.closest('.iti'); // Récupérer le conteneur généré par intl-tel-input
+            // if (itiContainer) {
+            //    itiContainer.classList.add('form-control'); // Ajouter la classe Bootstrap
+            // }
+
+            // Mettre à jour la valeur du champ avec le numéro formaté
+            function updatePhoneNumber() {
+                phoneInput.value = iti.getNumber().substring(1);
+            }
+
+            phoneInput.addEventListener("countrychange", updatePhoneNumber);
+            phoneInput.addEventListener("blur", updatePhoneNumber);
+        });
+
+    </script>
+
+
 
 {% endblock %}

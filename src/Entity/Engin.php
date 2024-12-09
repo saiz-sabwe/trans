@@ -189,7 +189,7 @@ class Engin
 
     public function getOwnerPhoneNumber(): ?string
     {
-        return $this->owner instanceof User ? $this->getOwner()->getPseudo() : $this->ownerPhoneNumber;
+        return $this->owner instanceof User ? $this->getOwner()->getUsername() : $this->ownerPhoneNumber;
     }
 
     public function getRegistrationCipher(): ?string

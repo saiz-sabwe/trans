@@ -50,10 +50,10 @@ class SubscriptionFormType extends AbstractType
                 'required' => true,
                 'placeholder' => '- Mode de paiement -',
             ])
-//            ->add('isDefaultAmount', HiddenType::class, [
-//                'mapped' => false,
-//                'required' => true,
-//            ])
+            ->add('isDefaultAmount', HiddenType::class, [
+                'mapped' => false,
+                'required' => true,
+            ])
             ->add('payerCurrency', ChoiceType::class, [
                 'mapped' => false,
                 'label' => 'Devise',
@@ -81,10 +81,10 @@ class SubscriptionFormType extends AbstractType
                     'maxlength' => 25,
                 ],
             ])
-//            ->add('countryCode', HiddenType::class,
-//                [
-//                    'mapped' => false,
-//                ])
+            ->add('countryCode', HiddenType::class,
+                [
+                    'mapped' => false,
+                ])
             ->add('totalDay', TextType::class, [
                 'mapped' => false,
                 'label' => 'Nombre de jours',

@@ -60,6 +60,11 @@ class SubscriptionController extends AbstractController
                 $this->logger->info("# SubscriptionController > create: data submitted", $structure);
 
                 $result = $this->subscriptionService->create($structure);
+//                $result = [
+//                    "postAction"=>[
+//                        "message"=>"Votre message ya tokosssssssss",
+//                    ]
+//                ];
 
                 $postAction = $result["postAction"];
                 $this->logger->info("# SubscriptionController > create: postAction", ["postAction" => $postAction]);
@@ -79,27 +84,26 @@ class SubscriptionController extends AbstractController
                         return new RedirectResponse($paymentUrl);
                     }
                     $this->logger->info("# SubscriptionController > create: pymnt url nul");// Dans un autre contrôleur ou méthode
-                    return $this->redirectToRoute('app_post_action', [
-                        'message' => $message,
-                        'label' => "success",
-                    ]);
+
+                    // Redirection avec messages flash
+                    $this->addFlash('success_message', $message);
+                    return $this->redirectToRoute('app_base_home');
 
                 }
 
                 $this->logger->info("# WalletOperationController > create:post action nul");
 
-                return $this->redirectToRoute('app_post_action', [
-                    'label' => "danger",
-                ]);
+                return $this->redirectToRoute('app_base_home');
+
             } catch (\Exception $e) {
                 $this->logger->info("# SubscriptionController > create:exception ");
                 $exception = $this->exceptionService->getException($e);
                 $message = $exception['message'];
                 $this->logger->info("# SubscriptionController > create :exception", ["message"=>$message]);
+
                 $this->addFlash("danger_message", $exception['message']);
-                return $this->redirectToRoute('app_post_action', [
-                    'message' => $message,
-                    'label' => "danger",
+                return $this->render('subscription/index.html.twig', [
+                    'form' => $form->createView(),
                 ]);
             }
         }
@@ -110,25 +114,31 @@ class SubscriptionController extends AbstractController
         ]);
     }
 
-    #[Route('/subscription/register', name: 'app__subscription_register')]
+    #[Route('/subscription/register', name: 'app_subscription_register')]
     public function register(Request $request): Response
     {
         $this->logger->info("# SubscriptionController > register: start");
 
-        $subscriptions = $this->subscriptionService->findLastSubscription(10);
+        $user = $this->getUser();
+
+
+        $subscriptions = $this->subscriptionService->findLastSubscription(30,$user);
         $processedSubscriptions = [];
 
         foreach ($subscriptions as $subscription) {
             $subscriptionPricing = $subscription->getSubscriptionPricing();
-            $subscriptionCategory = $subscriptionPricing->getSubscriptionCategoy();
+//            $subscriptionCategory = $subscriptionPricing->getSubscriptionCategoy();
             $engin = $subscription->getEngin();
 
             $processedSubscriptions[] = [
                 'id' => $subscription->getId(),
+                'dateCreated' => $subscription->getDateCreated(),
                 'amount' => $subscriptionPricing->getAmount(),
-                'categoryLabel' => $subscriptionCategory->getLabel(),
+//                'categoryLabel' => $subscriptionCategory->getLabel(),
                 'registration' => $engin->getRegistration(),
+                'Paiement' => $subscription->getc2bStatus(),
                 'dateEnd' => $subscription->getDateEnd(),
+
             ];
         }
 

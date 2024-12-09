@@ -1,102 +1,89 @@
-<!doctype html>
-<html lang="en">
+{% extends 'base.html.twig' %}
 
-<head>
-    <meta charset="utf-8">
-    <title>Register | MakutaTrans</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
-    <meta content="Themesbrand" name="author">
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+{% block title %}Register{% endblock %}
 
-    <!-- Bootstrap Css -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css">
-    <!-- Icons Css -->
-    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
-    <!-- App Css-->
-    <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css">
-</head>
+{% set sidebar_visible = false %}
 
-<body>
-<div class="account-pages my-5 pt-sm-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6 col-xl-5">
-                <div class="card overflow-hidden">
-                    <div class="card-body pt-0">
-                        <h3 class="text-center mt-5 mb-4">
-                            <a href="{{ path('app_base_home') }}" class="d-block auth-logo">
-                                <img src="{{ asset('/img/makutatrans_blue.png') }}" alt="Logo" height="30" class="auth-logo-dark">
-                            </a>
-                        </h3>
-                        <div class="p-3">
-                            <h4 class="text-muted font-size-18 mb-1 text-center">Inscription gratuite</h4>
-                            <p class="text-muted text-center">Créez votre compte Makutatrans gratuitement.</p>
-
-                            {% for flash_error in app.flashes('verify_email_error') %}
-                                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-                            {% endfor %}
-
-                            {{ form_start(registrationForm, { 'attr': { 'class': 'form-horizontal mt-4' } }) }}
-                            <div class="mb-3">
-                                {{ form_label(registrationForm.pseudo, 'Pseudo') }}
-                                {{ form_widget(registrationForm.pseudo, { 'attr': { 'class': 'form-control', 'placeholder': 'Entrez votre pseudo' } }) }}
-                                {{ form_errors(registrationForm.pseudo) }}
-                            </div>
-
-                            <div class="mb-3">
-                                {{ form_label(registrationForm.username, 'Compte utilisateur') }}
-                                {{ form_widget(registrationForm.username, { 'attr': { 'class': 'form-control', 'placeholder': 'Numéro de téléphone valide' } }) }}
-                                {{ form_errors(registrationForm.username) }}
-                            </div>
-
-                            <div class="mb-3">
-                                {{ form_label(registrationForm.plainPassword, 'Mot de passe') }}
-                                {{ form_widget(registrationForm.plainPassword, { 'attr': { 'class': 'form-control', 'placeholder': 'Entrez un mot de passe valide' } }) }}
-                                {{ form_errors(registrationForm.plainPassword) }}
-                            </div>
-
-
-                            <div class="mb-3">
-                                {{ form_label(registrationForm.agreeTerms) }}
-                                {{ form_widget(registrationForm.agreeTerms, { 'attr': { 'class': 'form-check-input' } }) }}
-                                {{ form_errors(registrationForm.agreeTerms) }}
-                            </div>
-
-                            <div class="mb-3 row mt-4">
-                                <div class="col-12 text-end">
-                                    <button type="submit" class="btn btn-primary w-md waves-effect waves-light">Register</button>
+{% block body %}
+    <main class="main" id="top">
+        <div class="container" data-layout="container">
+            <div class="row justify-content-center min-vh-25 py-3">
+                <div class="col-sm-11 col-md-9 col-lg-7 col-xl-6 col-xxl-5">
+                    <a class="d-flex justify-content-center mb-4" href="{{ path("app_base_home") }}">
+                        <img class="me-0" src="{{ asset('/img/makutatrans_blue_old.png') }}" alt="" width="150"/>
+                    </a>
+                    <div class="card">
+                        <div class="card-body p-4 p-sm-5">
+                            <div class="p-4 p-md-5 flex-grow-1">
+                                <div class="row d-flex justify-content-between mb-2">
+                                    <div class="col-auto">
+                                        <h5>Créer un compte</h5>
+                                    </div>
+                                    <div class="col-auto fs-10 text-600">
+                                        <span>ou</span> <a href="{{ path('app_login') }}">Se connecter</a>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="mb-0 row">
-                                <div class="col-12 mt-4">
-                                    <p class="text-muted mb-0 font-size-14">En vous inscrivant, vous acceptez les <a href="#" class="text-primary">conditions d'utilisation</a> de Makutatrans.</p>
+                                {% for flash_error in app.flashes('verify_email_error') %}
+                                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                                {% endfor %}
+
+                                {{ form_start(registrationForm, {'attr': {'class': 'needs-validation'}}) }}
+                                <div class="text-danger">
+                                    {{ form_errors(registrationForm) }}
                                 </div>
+                                <div class="mb-3">
+                                    {{ form_row(registrationForm.pseudo, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form_row(registrationForm.username, {
+                                        'label':'Compte utilisateur',
+                                        'attr': {'class': 'form-control', 'id': 'username'}
+                                    }) }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form_row(registrationForm.plainPassword, { 'label': 'Mot de passe', 'attr': {'class': 'form-control'} }) }}
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    {{ form_widget(registrationForm.agreeTerms, { 'attr': { 'class': 'form-check-input', 'id': 'card-register-checkbox' } }) }}
+                                    <label class="form-label" for="card-register-checkbox">
+                                        J'accepte les <a href="#">conditions</a> et la <a class="white-space-nowrap" href="#">politique de confidentialité</a>
+                                    </label>
+                                </div>
+
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary d-block w-100 mt-3">S'inscrire</button>
+                                </div>
+                                {{ form_end(registrationForm) }}
                             </div>
-                            {{ form_end(registrationForm) }}
                         </div>
                     </div>
                 </div>
-                <div class="mt-5 text-center">
-                    <p>Vous avez déjà un compte ? <a href="{{ path('app_login') }}" class="text-primary"> Connexion </a></p>
-                    © <script>document.write(new Date().getFullYear())</script> Makutatrans <span class="d-none d-sm-inline-block"> - Créé avec <i class="mdi mdi-heart text-danger"></i> WOLF TECHNOLOGIES.</span>
-                </div>
             </div>
         </div>
-    </div>
-</div>
+    </main>
 
-<!-- JAVASCRIPT -->
-<script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}"></script>
-<script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
-<script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
-<script src="{{ asset('assets/libs/jquery-sparkline/jquery.sparkline.min.js') }}"></script>
-<!-- App js -->
-<script src="{{ asset('assets/js/app.js') }}"></script>
-</body>
+    <script>
+        // Initialisation de intl-tel-input sur le champ de numéro de téléphone
+        const phoneInput = document.querySelector("#registration_form_username");
+        const iti = window.intlTelInput(phoneInput, {
+            initialCountry: "cd",  // Pays par défaut
+            preferredCountries: ["cd", "fr", "us", "gb"],
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
 
-</html>
+        // Met à jour le champ avec le numéro complet, y compris l'indicatif de pays
+        function updatePhoneNumber() {
+            // Obtenez le numéro complet au format E.164
+            const fullNumber = iti.getNumber();
+            // Vérifiez si le premier caractère est un '+' et supprimez-le
+            phoneInput.value = fullNumber.substring(1);
+        }
+
+        // Écoute l'événement de changement de pays et de saisie de numéro
+        phoneInput.addEventListener("countrychange", updatePhoneNumber);
+        phoneInput.addEventListener("blur", updatePhoneNumber);
+    </script>
+
+{% endblock %}

@@ -256,6 +256,10 @@ class EnginService
             'isWorking' => true
         ]);
 
+        if ($engin === null) {
+            $engin = $this->createByRegistration($registration);
+        }
+
         if (!($engin instanceof Engin) && $throw) {
             throw new \RuntimeException("Véhicule non trouvé", Response::HTTP_UNAUTHORIZED);
         }

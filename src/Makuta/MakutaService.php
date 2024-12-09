@@ -2,6 +2,7 @@
 
 namespace App\Makuta;
 
+use App\OneSignal\OneSignalService;
 use App\Service\ArrayService;
 use App\Service\WalletOperationService;
 use Psr\Log\LoggerInterface;
@@ -18,18 +19,20 @@ class MakutaService
     private ArrayService $arrayService;
     private WalletOperationService $walletOperationService;
     private MakutaEndpointService $makutaEndpointService;
+    private OneSignalService $oneSignalService;
 
-    public function __construct(LoggerInterface $logger, ArrayService $arrayService, WalletOperationService $walletOperationService, MakutaEndpointService $makutaEndpointService)
+    public function __construct(LoggerInterface $logger, ArrayService $arrayService, WalletOperationService $walletOperationService, MakutaEndpointService $makutaEndpointService,OneSignalService $oneSignalService)
     {
         $this->logger = $logger;
         $this->arrayService = $arrayService;
         $this->walletOperationService = $walletOperationService;
         $this->makutaEndpointService = $makutaEndpointService;
+        $this->oneSignalService = $oneSignalService;
     }
 
-    public function callbackResult(array $data): void
+    public function callbackResult(array $data, string $id): void
     {
-        $this->logger->info("# MakutaService > callbackResult: Start", ['dataReceived' => $data]);
+        $this->logger->info("# MakutaService > callbackResult: Start", ['dataReceived' => $data, 'userID'=>$id]);
 
         //region Vérification des champs obligatoires venant de Makuta Callback Result
         $structure = [
@@ -52,7 +55,11 @@ class MakutaService
         $ft = $dataContent['financialTransaction'];
         $code = $data['code'];
 
+        //declencher la notification oneSignal
+        $notification = $this->oneSignalService->sendPushNotification($data,$id);
+
         $this->walletOperationService->closeTopup($ft, $code);
+
 
         $this->logger->info("# MakutaService > callbackResult: end Successfully", ['dataReceived' => $data]);
     }
@@ -178,5 +185,26 @@ class MakutaService
 
         $this->logger->info("# MakutaService > callbackT2PResult : End Success", ['data' => $data]);
 
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function makutaOperator(): array
+    {
+        $this->logger->info("# MakutaService > makutaOperator : Start");
+
+        $data = $this->makutaEndpointService->makutaOperator();
+
+        if(empty($data)){
+            $this->logger->info("# MakutaService > makutaOperator : data est null", ['data' => $data]);
+            throw new \RuntimeException("Données invalide", Response::HTTP_UNAUTHORIZED);
+        }
+
+        return $data;
     }
 }

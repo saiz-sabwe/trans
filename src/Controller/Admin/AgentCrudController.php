@@ -53,8 +53,10 @@ class AgentCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            AssociationField::new('company', 'Société')->setSortProperty('label'),
-            TextField::new('userAccountNumber', 'No.Compte utilisateur')->onlyOnForms()->setHelp("Ex: 24381... ou 24399..."),
+            AssociationField::new('company', 'Entité')->setSortProperty('label')
+            ->setHelp("Sélectionnez la dénomination d'une entité Ex: Société ou Entité Gouvernementale")
+                ->setFormTypeOption('placeholder', 'Sélectionnez une entité'),
+            TextField::new('userAccountNumber', 'No.Compte utilisateur')->onlyOnForms()->setHelp("Ex: 24381... ou 24399...")->setFormTypeOption('required', true),
             AssociationField::new('account', 'No.Compte utilisateur')->onlyOnDetail(),
             TextField::new('matricule', 'No. Matricule'),
             TextField::new('fullname', 'Nom complet'),

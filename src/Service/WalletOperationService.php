@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Agent;
 use App\Entity\Company;
+use App\Entity\Engin;
 use App\Entity\Subscription;
 use App\Entity\User;
 use App\Entity\Wallet;
@@ -214,6 +215,18 @@ class WalletOperationService
         //region Update Wallet
 
         $wallet = new Wallet();
+
+
+        //TODO:to refractor
+
+        $subscription = $walletOperation->getSubsciption();
+        if($subscription instanceof Subscription){
+            $subscription->setC2bStatus($c2bStatus);
+            $this->entityManager->persist($subscription);
+        }
+
+
+
 
         $channel = $walletOperation->getChannel();
         if($channel !== "momo")
@@ -436,9 +449,18 @@ class WalletOperationService
         return $structureFormatted;
     }
 
-    public function getLatestOperation(int $max): array
+    public function getLatestOperation(): array
     {
-        return $this->walletOperationRepository->findLastOperation($max);
+        $user = $this->userService->getCurrentUSer();
+        $engin = new Engin();
+        $u = $engin->getOwner();
+        $wallet = $user->getWallet();
+        if (!($wallet instanceof Wallet)) {
+            return [];
+        }
+
+        $wallet_id = $wallet->getId();
+        return $this->walletOperationRepository->findLastOperation($wallet_id);
     }
 
     public function register(array $data)

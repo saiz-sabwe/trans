@@ -62,4 +62,27 @@ class AgentRepository extends ServiceEntityRepository
 
         return $qb;
     }
+
+    public function findByRole(array $roles, bool $isDeleted = null)
+    {
+        $qb = $this->createQueryBuilder('a');
+        $qb->leftJoin('a.account', 'u');
+
+        // Construction de la condition pour les rôles
+        $orX = $qb->expr()->orX();
+        foreach ($roles as $index => $role) {
+            $orX->add($qb->expr()->like('u.roles', ':role' . $index));
+            $qb->setParameter('role' . $index, '%"ROLE_' . $role . '"%');
+        }
+
+        $qb->where($orX);
+
+        // Condition pour isDeleted
+        if ($isDeleted !== null) {
+            $qb->andWhere('u.isDeleted = :isDeleted')
+                ->setParameter('isDeleted', $isDeleted);
+        }
+
+        return $qb;
+    }
 }

@@ -63,11 +63,6 @@ class ApiSubscriptionController extends AbstractController
 
             $this->logger->info("# ApiSubscriptionController > apiCheckSubscribe: result", ["result" => $result]);
 
-//            return $this->json([
-//                'registration' => $result['registration'],
-//                'isSubscriptionActive' => $result['isSubscriptionActive'],
-//            ]);
-
             return $this->json([$result]);
 
         } catch (\Exception $e) {
@@ -111,7 +106,8 @@ class ApiSubscriptionController extends AbstractController
 
             $this->logger->info("# ApiSubscriptionController > apiRegister: result", ["result" => $subscription]);
 
-            return $this->json($subscription, Response::HTTP_OK,[],);
+//            return $this->json(200);
+            return $this->json($subscription, Response::HTTP_OK,[],['groups'=>['api']]);
 
         } catch (\Exception $e) {
             $exception = $this->exceptionService->getException($e);

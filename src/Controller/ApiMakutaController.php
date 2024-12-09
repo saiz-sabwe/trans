@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Makuta\MakutaService;
 use App\Service\ExceptionService;
+use App\Service\JWTDecoderService;
+use App\Service\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,21 +23,41 @@ class ApiMakutaController extends AbstractController
     private LoggerInterface $logger;
     private ExceptionService $exceptionService;
     private MakutaService $makutaService;
+    private JWTDecoderService $jwtDecoderService;
+    private UserService $userService;
 
-    public function __construct(LoggerInterface $logger, ExceptionService $exceptionService, MakutaService $makutaService)
+    public function __construct(LoggerInterface $logger, ExceptionService $exceptionService, MakutaService $makutaService, JWTDecoderService $jwtDecoderService, UserService $userService)
     {
         $this->logger = $logger;
         $this->exceptionService = $exceptionService;
         $this->makutaService = $makutaService;
+        $this->jwtDecoderService = $jwtDecoderService;
+        $this->userService = $userService;
     }
 
-    #[Route('/api/makuta/callback-result', name: 'app_api_makuta_callback_result')]
+//    #[Route('/api/makuta/callback-result', name: 'app_api_makuta_callback_result')]
+    #[Route('/callback/drc/makuta/ctob-callback-result', name: 'app_api_makuta_callback_result')]
     public function apiCallbackResult(Request $request): JsonResponse
     {
         try {
             $this->logger->info("# ApiMakutaController > apiCallbackResult: Start");
 
-            $this->makutaService->callbackResult($request->toArray());
+            // Get the Authorization header
+            $bearerToken = $request->headers->get('Authorization');
+
+            // Extract the username from the JWT token
+            $username = $this->jwtDecoderService->getUsernameFromBearerToken($bearerToken);
+
+            $this->logger->info("# ApiMakutaController > username : data received",["username"=>$username]);
+
+            //TODO: a refractorer
+
+            $user = $this->userService->findByUsername($username);
+            $this->logger->info("# ApiMakutaController > $user : data received",["user"=>$user]);
+
+
+
+            $this->makutaService->callbackResult($request->toArray(),$user->getId());
 
             return $this->json([
                 'message' => 'OK'
@@ -78,5 +100,26 @@ class ApiMakutaController extends AbstractController
 
             return $this->json(['message' => $exception['message']], $exception['code']);
         }
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    #[Route('/api/makuta/financial-corporation', name: 'app_api_makuta_financial_corporation')]
+    public function apiMakutaOperator() :JsonResponse
+    {
+        $this->logger->info("# ApiMakutaController > apiMakutaOperator : Start");
+
+        $data = $this->makutaService->makutaOperator();
+
+
+        return $this->json(
+            $data,
+            Response::HTTP_OK
+        );
     }
 }

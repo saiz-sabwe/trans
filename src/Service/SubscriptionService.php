@@ -248,14 +248,15 @@ class SubscriptionService
 
         //region structure
         $structure = [
-            'pin',
-            'registration'
+//            'pin',
+            'registration',
+
         ];
 
         $this->arrayService->array_diff($structure, $data);
         //endregion
 
-        //region PIN
+/*        //region PIN
         $pin = trim($data['pin']) ?: null;
 
         if ($pin === null)
@@ -263,6 +264,7 @@ class SubscriptionService
             $this->logger->info("# SubscriptionService > checkSubscribe: PIN est invalide");
             throw new \RuntimeException("Pin invalide", Response::HTTP_UNAUTHORIZED);
         }
+        //endregion*/
 
         //region Registration
         $registration = trim($data['registration']) ?: null;
@@ -290,10 +292,10 @@ class SubscriptionService
             throw new \RuntimeException("Véhicule non affecté à un utilisateur", Response::HTTP_UNAUTHORIZED);
         }
 
-        if (!$this->userService->checkPassword($owner, $pin))
-        {
-            throw new \RuntimeException("Code PIN invalide", Response::HTTP_UNAUTHORIZED);
-        }
+//        if (!$this->userService->checkPassword($owner, $pin))
+//        {
+//            throw new \RuntimeException("Code PIN invalide", Response::HTTP_UNAUTHORIZED);
+//        }
 
         $now = new \DateTime();
 
@@ -309,6 +311,7 @@ class SubscriptionService
             'message'=> "Votre abonnement est valide jusqu'au ".  $subscription->getDateEnd()->format('Y-m-d H:i:s')
         ];
     }
+
 
     public function detailSubscribe(array $data)
     {
@@ -410,20 +413,63 @@ class SubscriptionService
         return $queryBuilder->getQuery()->getResult();
     }
 
-    public function findLastSubscription(int $max): array
+    public function findLastSubscriptions(int $max, object $user): array
     {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
 
-        $queryBuilder->select('s')
-            ->from(Subscription::class, 's')
-            ->orderBy('s.dateCreated', 'DESC')
-            ->setMaxResults($max)
+        $queryBuilders = $this->entityManager->createQueryBuilder();
+
+        $queryBuilders->select('e')
+            ->from(Engin::class, 'e')
+            ->where('e.owner = :user')
+            ->setParameter('user', $user->getId(), 'uuid')
+            ->orderBy('e.dateCreated', 'DESC')
+            ->setMaxResults(1)
             ->getQuery()
             ->getResult();
 
-        return $queryBuilder->getQuery()->getResult();
+// Fetch the latest Engin object
+        $en = $queryBuilders->getQuery()->getResult();
+
+// Check if the result is not empty
+        if (!empty($en)) {
+            $engin = $en[0]; // Get the first result (since setMaxResults(1) is used)
+
+            // Create a new query for Subscription
+            $queryBuilder = $this->entityManager->createQueryBuilder();
+            $queryBuilder->select('s')
+                ->from(Subscription::class, 's')
+                ->where('s.engin = :engin_id')
+                ->setParameter('engin_id', $engin->getId(), 'uuid') // Use $engin here
+                ->orderBy('s.dateCreated', 'DESC')
+                ->setMaxResults($max);
+
+            return $queryBuilder->getQuery()->getResult();
+        } else {
+            // Handle case where no Engin object is found
+            return [];
+        }
+
 
     }
+
+    public function findLastSubscription(int $max, object $user): array
+    {
+        // Create the query builder
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+
+        // Build the query with a JOIN between Engin and Subscription
+        $queryBuilder->select('s')
+            ->from(Subscription::class, 's')
+            ->innerJoin(Engin::class, 'e', 'WITH', 's.engin = e.id')
+            ->where('e.owner = :user')
+            ->setParameter('user', $user->getId(), 'uuid')
+            ->orderBy('s.dateCreated', 'DESC')
+            ->setMaxResults($max);
+
+        // Execute the query and return the result
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 
     public function findActiveSubscriptionByEngin(Engin $engin)
     {

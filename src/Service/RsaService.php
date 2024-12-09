@@ -11,6 +11,8 @@ class RsaService
     {
         $rsa = RSA::createKey(2048);
 
+        //$passphrase = bin2hex(random_bytes(16)); // Exemple : 32 caractères hexadécimaux
+        //'privateKey' => $rsa->withPassword($passphrase)->toString('PKCS8'),
         return [
             'privateKey' => $rsa->toString('PKCS8'),
             'publicKey' => $rsa->getPublicKey()->toString('PKCS8')

@@ -2,24 +2,25 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\User;
+use App\Entity\AgentParking;
+use App\Repository\AgentRepository;
+use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class UserCrudController extends AbstractCrudController
+class AgentParkingCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return User::class;
+        return AgentParking::class;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -31,19 +32,20 @@ class UserCrudController extends AbstractCrudController
             ->disable(Action::DELETE);
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('pseudo', "Pseudonyme"),
-            TelephoneField::new('username', "No.Téléphone"),
-            EmailField::new('email', "E-mail"),
-
-            TextField::new('password', "Mot de passe")->onlyWhenCreating(),
-            BooleanField::new('isVerified', "Est vérifié"),
-            ArrayField::new('roles', "Roles")->hideOnIndex(),
-            //TextEditorField::new('description'),
+            AssociationField::new('agent', "Agent")
+                ->setFormTypeOptions([
+                    'query_builder' => function (AgentRepository $er) {
+                        return $er->findByRole(["VERIFICATOR", "COLLECTOR"]);
+                    },
+                ])->setFormTypeOption('placeholder', 'Sélectionnez un agent'),
+            AssociationField::new('parking', 'Parking')->setFormTypeOption('placeholder', 'Sélectionnez un Parking'),
+            BooleanField::new('isDeleted', "Est supprimé")->hideWhenCreating(),
+            DateTimeField::new('createdAt', 'Date de création')->hideOnForm(),
         ];
     }
+
 }

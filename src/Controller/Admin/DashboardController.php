@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Agent;
+use App\Entity\AgentParking;
 use App\Entity\BusStop;
 use App\Entity\Company;
 use App\Entity\Engin;
@@ -57,7 +58,7 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Société', 'fas fa-university', Company::class);
+        yield MenuItem::linkToCrud('Société', 'fas fa-university', Company::class)->setPermission('ROLE_SUPER_ADMIN');
 
         yield MenuItem::section('Gestion des trajets');
         yield MenuItem::linkToCrud('Trajets des véhicules', 'fa fa-road', EnginItinerary::class);
@@ -70,7 +71,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Agent-Vehicule', 'fas fa-users', EnginAgent::class);
         yield MenuItem::linkToCrud('Agent', 'fas fa-user', Agent::class);
 
-        yield MenuItem::section('Gestion Automobile');
+        yield MenuItem::section('Gestion Automobile'); 
         yield MenuItem::linkToCrud('Engin', 'fas fa-car', Engin::class);
         yield MenuItem::linkToCrud('Engin categories', 'fas fa-layer-group', EnginCategory::class);
 
@@ -82,6 +83,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section("Gestion des Parkings");
         yield MenuItem::linkToCrud('Parking', 'fas fa-parking', Parking::class);
+        yield MenuItem::linkToCrud('Agent de parking', 'fas fa-parking', AgentParking::class);
         yield MenuItem::linkToCrud('Categorie Subscription', 'fas fa-parking', SubscriptionCategory::class);
         yield MenuItem::linkToCrud('Prix des parkings', 'fa fa-money', SubscriptionPricing::class);
 

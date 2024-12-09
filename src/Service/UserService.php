@@ -46,7 +46,6 @@ class UserService
             throw new \RuntimeException("Utilisateur non trouvé", Response::HTTP_NOT_FOUND);
         }
 
-
         return $user;
     }
 
@@ -62,7 +61,7 @@ class UserService
         return $user;
     }
 
-    public function create(string $phoneNumber, string $pseudo, string $plainPassword, bool $isVerified, bool $isPersist = false)
+    public function create(string $phoneNumber, string $pseudo, string $plainPassword, bool $isVerified, bool $isPersist)
     {
         $user = new User();
         $user->setUsername($phoneNumber);
