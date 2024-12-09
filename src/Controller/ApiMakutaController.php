@@ -57,7 +57,8 @@ class ApiMakutaController extends AbstractController
 
 
 
-            $this->makutaService->callbackResult($request->toArray(),$user->getId());
+//            $this->makutaService->callbackResult($request->toArray(),$user->getId());
+            $this->makutaService->callbackResult($request->toArray());
 
             return $this->json([
                 'message' => 'OK'

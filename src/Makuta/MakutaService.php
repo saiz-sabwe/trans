@@ -30,9 +30,9 @@ class MakutaService
         $this->oneSignalService = $oneSignalService;
     }
 
-    public function callbackResult(array $data, string $id): void
+    public function callbackResult(array $data): void
     {
-        $this->logger->info("# MakutaService > callbackResult: Start", ['dataReceived' => $data, 'userID'=>$id]);
+        $this->logger->info("# MakutaService > callbackResult: Start", ['dataReceived' => $data]);
 
         //region Vérification des champs obligatoires venant de Makuta Callback Result
         $structure = [
@@ -56,6 +56,7 @@ class MakutaService
         $code = $data['code'];
 
         //declencher la notification oneSignal
+        $id = "0191a900-1d23-75b7-95de-4a6f96705a75";
         $notification = $this->oneSignalService->sendPushNotification($data,$id);
 
         $this->walletOperationService->closeTopup($ft, $code);
