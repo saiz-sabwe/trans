@@ -26,6 +26,7 @@ class OneSignalEndpointService
     {
 
         $this->logger->info("# OneSignalEndpointService > sendPushNotification : Start");
+        $this->logger->info("# OneSignalEndpointService > sendPushNotification : externalId value :$externalId");
 
         $httpClient = HttpClient::create();
 

@@ -55,7 +55,7 @@ class MakutaService
 
 
 
-        $this->walletOperationService->closeTopup($ft, $code,$id);
+        $this->walletOperationService->closeTopup($ft, $code, $id);
 
 //        //declencher la notification oneSignal
 //        $id = "0191a900-1d23-75b7-95de-4a6f96705a75";
