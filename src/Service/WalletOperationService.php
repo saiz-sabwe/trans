@@ -202,6 +202,7 @@ class WalletOperationService
 
         if($walletOperation->getClosedStatus()!==null)
         {
+            $this->oneSignalService->sendPushNotification("Makuta trans","operation déjà traitée",$id);
             throw new \RuntimeException("operation déjà traitée", Response::HTTP_UNAUTHORIZED);
         }
 
