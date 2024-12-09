@@ -203,7 +203,7 @@ class WalletOperationService
         if($walletOperation->getClosedStatus()!==null)
         {
             $ids = "0191a900-1d23-75b7-95de-4a6f96705a75";
-            $this->oneSignalService->sendPushNotification("Makuta trans","operation déjà traitée",$ids);
+            $notification = $this->oneSignalService->sendPushNotification("Makuta trans","operation déjà traitée",$ids);
             throw new \RuntimeException("operation déjà traitée", Response::HTTP_UNAUTHORIZED);
         }
 
