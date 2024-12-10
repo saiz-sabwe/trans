@@ -203,7 +203,7 @@ class WalletOperationService
         if($walletOperation->getClosedStatus()!==null)
         {
 //            $ids = "0191a900-1d23-75b7-95de-4a6f96705a75";
-            $notification = $this->oneSignalService->sendPushNotification("Makuta trans","operation déjà traitée",$id);
+            $notification = $this->oneSignalService->sendPushNotification("Makuta trans","operation déjà traitée",$id,["code"=>$c2bStatus]);
             throw new \RuntimeException("operation déjà traitée", Response::HTTP_UNAUTHORIZED);
         }
 
@@ -216,7 +216,7 @@ class WalletOperationService
         {
             $this->entityManager->flush();
 //            $ids = "0191a900-1d23-75b7-95de-4a6f96705a75";
-            $notification = $this->oneSignalService->sendPushNotification("Makuta trans","Paiement annulé",$id);
+            $notification = $this->oneSignalService->sendPushNotification("Makuta trans","Paiement annulé",$id,["code"=>$c2bStatus]);
             throw new \RuntimeException("Paiement annulé", Response::HTTP_NOT_ACCEPTABLE);
         }
         //endregion
@@ -232,7 +232,7 @@ class WalletOperationService
         if($subscription instanceof Subscription){
             $subscription->setC2bStatus($c2bStatus);
             $this->entityManager->persist($subscription);
-            $this->oneSignalService->sendPushNotification("Makuta trans","Paiement réussi",$id,["dateEnd"=>$subscription->getDateEnd(),"registration"=>$subscription->getEngin()->getRegistration()]);
+            $this->oneSignalService->sendPushNotification("Makuta trans","Paiement réussi",$id,["code"=>$c2bStatus, "dateEnd"=>$subscription->getDateEnd(),"registration"=>$subscription->getEngin()->getRegistration()]);
         }
 
 
