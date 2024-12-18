@@ -36,7 +36,8 @@ class ApiMakutaController extends AbstractController
     }
 
 //    #[Route('/api/makuta/callback-result', name: 'app_api_makuta_callback_result')]
-    #[Route('/callback/drc/makuta/ctob-callback-result', name: 'app_api_makuta_callback_result')]
+//    #[Route('/callback/drc/makuta/ctob-callback-result', name: 'app_api_makuta_callback_result')]
+    #[Route('/cresult$', name: 'app_api_makuta_callback_result')]
     public function apiCallbackResult(Request $request): JsonResponse
     {
         try {

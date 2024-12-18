@@ -72,7 +72,8 @@ security:
         #Attention garder /api/login public et non /api/login_check
         - { path: ^/login$, roles: PUBLIC_ACCESS }
         - { path: ^/register$, roles: PUBLIC_ACCESS }
-        - { path: ^/callback/drc/makuta/ctob-callback-result$, roles: PUBLIC_ACCESS }
+#        - { path: ^/callback/drc/makuta/ctob-callback-result$, roles: PUBLIC_ACCESS }
+        - { path: ^/cresult$, roles: PUBLIC_ACCESS }
 #        - { path: ^/api/, roles: ROLE_INTEGRATOR }
         - { path: ^/admin, roles: ROLE_ADMIN_PANEL }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
